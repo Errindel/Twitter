@@ -1,0 +1,58 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body {
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,.6);
+  background-image: url(../img/background.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  height: 100%;
+  width: 100%;
+}
+
+h2 {
+  font-weight: bolder;
+  font-size: 32px;
+  text-transform: uppercase;
+
+}
+
+.navbar {
+  background-color: white;
+}
+
+.welcome{
+  padding: 10% 15%;
+  padding-bottom: 25%;
+  height: 100%;
+}
+
+.welcome-txt{
+  font-size: 20px;
+  padding-top: 30px;
+}
+
+
+.login{
+  background-color: white;
+  border-radius: 5px;
+  border-color: darkgray;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.register{
+  background-color: white;
+  border-radius: 5px;
+  border-color: darkgray;
+  padding: 10px;
+}
+.register h4, span{
+  color: black;
+  margin-bottom: 5px;
+}
