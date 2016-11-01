@@ -29,21 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
     $newComment->setUserId($userId);
     $newComment->setTweetId($tweetId);
     $newComment->setCreationDate($creationDate);
-
     $result = $newComment->saveToDB($connection);
 }
-
-//
-//<form class="comment" role="form" action="" method="POST">
-//                                <div class="form-group">
-//                                    <textarea type="text" name="comment" placeholder="Skomentuj" class="form-control"></textarea>
-//                                </div>
-//                                <button type="submit" class="btn btn-info">Skomentuj</button>
-//                                <span id="counter">60</span>
-//                            </form>
-//
-
-
 ?>
 
 <!doctype html>
@@ -95,24 +82,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                         <li><a href="messages.php">Wiadomości</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-
-                        <li><a>
-                                <form class="logout" action="logout.php" role="form">
-                                    <button type="submit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-off"></span> Wyloguj się</button>
-                                </form>                             
-
-                            </a></li>
-
-
-
+                        <li><a href="logout.php">Wyloguj się </a></li>
                     </ul>
-
                 </div><!--/.navbar-collapse -->
             </div>
         </nav>
 
         <div class="container">
-            <!-- Example row of columns -->
+            
             <div class="row ">
                 <div class="col-md-4">
                     <h5>Twoje dane:</h5>
@@ -126,11 +103,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                     ?>
 
                     <table class="table table-hover" id="table-tweet">                                
-                        <tbody>
+                        <thead>
+                            <tr><div style="background-color: #2B7BB9; height: 80px;"></div></tr>
                             <tr id="table-tweet-header">
                                 <td> Użytkownik: <?= $loggedUserName ?> </td>
                                 <td> Email:  <?= $loggedUserEmail ?> </td>
                             </tr>
+                        </thead>    
+                        <tbody>
                             <tr>
                                 <td><form action="profile.php" method="POST"><button class="btn btn-info btn-xs">Twój profil</button></form></td>
                                 <td><form action="message.php" method="POST"><button class="btn btn-info btn-xs">Wyślij wiadomość</button></form></td>
@@ -178,10 +158,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                             <h5>Somentuj:</h5>
                             <form class="comment" role="form" action="" method="POST">
                                 <div class="form-group">
-                                    <textarea type="text" name="comment" placeholder="Skomentuj" class="form-control"></textarea>
+                                    <textarea type="text" name="comment" placeholder="Skomentuj" class="form-control" id="comment"></textarea>
+                                    <span class="komunikat hide"></span>
                                 </div>
-                                <button type="submit" class="btn btn-info">Skomentuj</button>
-                                <span id="counter">60</span>
+                                <button type="submit" class="btn btn-info" id="send-comment">Skomentuj</button>
+                                <span class="komunikat hide"></span>
+                                <span id="commentCounter">60</span>
                             </form>
 
                             <h5>Komentarze:</h5>
@@ -231,26 +213,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
     </div> <!-- /container -->        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
-    <script src="js/vendor/bootstrap.min.js"></script>
+     <script src="js/vendor/bootstrap.min.js"></script>
 
     <script src="js/main.js"></script>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-        (function (b, o, i, l, e, r) {
-            b.GoogleAnalyticsObject = l;
-            b[l] || (b[l] =
-                    function () {
-                        (b[l].q = b[l].q || []).push(arguments)
-                    });
-            b[l].l = +new Date;
-            e = o.createElement(i);
-            r = o.getElementsByTagName(i)[0];
-            e.src = '//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e, r)
-        }(window, document, 'script', 'ga'));
-        ga('create', 'UA-XXXXX-X', 'auto');
-        ga('send', 'pageview');
-    </script>
 </body>
 </html>

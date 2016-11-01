@@ -150,12 +150,12 @@ class Comment {
         //Saving new tweet to DB
             
             $statement = $connection->prepare("INSERT INTO Comments(tweet_id, user_id, comment_text, creation_date) VALUES (?, ?, ?, ?)");
-            
             $statement->bind_param('iiss', $this->tweetId, $this->userId, $this->text, $this->creationDate);
-            
             if ($statement->execute()) {
                 $this->commentId = $statement->insert_id;
                 return true;
+            } else {
+                echo $statement->error;
             }
         }
         return false;

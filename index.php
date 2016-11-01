@@ -62,7 +62,7 @@
                     <form action ="login.php" class="login" role="form" method="POST">
                         <div class="form-group">
                             <input type="text" name="email" placeholder="Email" class="form-control" id="email-l">
-                            <span class="komunikat hide hide"></span>
+                            <span class="komunikat hide"></span>
                         </div>
                         <div class="form-group">
                             <input type="password" name="password" placeholder="hasło" class="form-control" id="password-l">

@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         !empty($_POST['tweet'])) {
     $tweet = $_POST['tweet'];
     $userId = $_SESSION['loggedUserId'];
-    $creationDate = date("Y-m-d h:i:s");    
+    $creationDate = date("Y-m-d h:i:s");
 
     $newTweet = new Tweet;
     $newTweet->setText($tweet);
@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
 
     $result = $newTweet->saveToDB($connection);
 }
-
 ?>
 
 <!doctype html>
@@ -43,14 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
         <link rel="stylesheet" href="css/bootstrap.min.css">    
-        <style>
-            body {
-                padding-top: 50px;
-                padding-bottom: 20px;
-            }
-        </style>
+
         <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/profile.css">
 
 
         <script src="js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
@@ -74,31 +68,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="main.php">Główna</a></li>
-                        <li><a href="messages.php">Wiadomości</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-
-                        <li><a>
-                            <form class="logout" action="logout.php" role="form">
-                            <button type="submit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-off"></span> Wyloguj się</button>
-                        </form>
-                                
-                                
-                            </a></li>
-
-                        
-
+                        <li><a href="logout.php">Wyloguj się </a></li>
                     </ul>
 
                 </div><!--/.navbar-collapse -->
             </div>
         </nav>
 
+
+        <div class="container-fluid full" >
+            <div class="row full">
+                <div class="col-md-12 full">
+                    <div style="background-color: #2B7BB9; height: 200px; width: 100%"></div>
+                    <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#">Wiadomości</a></li>
+                                <li><a class="active" href="#">Twoje Tweety</a></li>
+                                <li><a  id="changeData"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Zmień dane</a></li>
+
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="row full">
+
+
+            </div>
+        </div>
         <div class="container">
             <!-- Example row of columns -->
+
             <div class="row ">
-                <div class="col-md-4">
-                    <h5>Twoje dane:</h5>
+
+                <div class="col-md-3">
+
                     <?= $creationTime ?>
                     <?php
                     $loggedUser = new User;
@@ -108,60 +115,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                     $loggedUserEmail = $loggedUser->getEmail();
                     ?>
 
-                    <table class="table table-hover" id="table-tweet">                                
+                    <table class="table" id="table-user">                                
                         <tbody>
-                            <tr id="table-tweet-header">
-                                <td> Użytkownik: <?= $loggedUserName ?> </td>
-                                <td> Email:  <?= $loggedUserEmail ?> </td>
-                            </tr>
-                            <tr>                        
-                                <td colspan="2"><form action="profile.php" method="POST"><button class="btn btn-info btn-xs">Zmień dane</button></form></td>
-                            </tr>
+                        <div class="avatar"></div>
+
+                        <tr> <h3 class="full"><?= $loggedUserName ?></h3>  </tr>
+                        <tr>  <?= $loggedUserEmail ?> </tr>
+
                         </tbody>
                     </table>
 
+                    <div id="change-data-form">
+
+                    </div>
+
                 </div>
-                <div class="col-md-8">
-                    <h5>Dodaj tweeta:</h5>
-                    <form class="tweet" role="form" action="" method="POST">
-                        <div class="form-group">
-                            <textarea type="text" name="tweet" placeholder="Co się dzieje?" class="form-control"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-info">Tweetnij</button>
-                        <span id="counter">140</span>
-                    </form>
-                    <row>
-                        <div class="col-md-12" style="padding: 0px;">
-                            <h5>Twoje Tweety</h5>
-                            <?php
-                            $tweets = new Tweet;
-                            $tweets = Tweet::loadAllTweetsByUserId($connection, $loggedUserId);
+                <div class="col-md-9">
+                    <div class="col-md-12" style="padding: 0px;">
+                        <h5>Twoje Tweety</h5>
+                        <?php
+                        $tweets = new Tweet;
+                        $tweets = Tweet::loadAllTweetsByUserId($connection, $loggedUserId);
 
 
 
-                            for ($i = 0; $i < count($tweets); $i++) {
-                                $id = $tweets[$i]->getUserId();
-                                $loadedUser = new User;
-                                $loadedUser = User::loadUserById($connection, $id);
-                                $username = $loadedUser->getUsername();
-                                $tweetId = $tweets[$i]->getTweetId();
-                                ?>
-                                <table class="table table-hover" id="table-tweet">                                
-                                    <tbody>
-                                        <tr id="table-tweet-header">
-                                            <td> <strong><?= $username ?></strong> </td>
-                                            <td> Data: <?= $tweets[$i]->getCreationDate() ?> </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2"><a href="comments.php   /?tweetId=<?=$tweetId?>"><?= $tweets[$i]->getText() ?></a></td>
-                                        </tr>
+                        for ($i = 0; $i < count($tweets); $i++) {
+                            $id = $tweets[$i]->getUserId();
+                            $loadedUser = new User;
+                            $loadedUser = User::loadUserById($connection, $id);
+                            $username = $loadedUser->getUsername();
+                            $tweetId = $tweets[$i]->getTweetId();
+                            ?>
+                            <table class="table table-hover" id="table-tweet">                                
+                                <tbody>
+                                    <tr id="table-tweet-header">
+                                        <td> <strong><?= $username ?></strong> </td>
+                                        <td> Data: <?= $tweets[$i]->getCreationDate() ?> </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><a href="comments.php   /?tweetId=<?= $tweetId ?>"><?= $tweets[$i]->getText() ?></a></td>
+                                    </tr>
 
-                                    </tbody>
-                                </table>
-                            <?php } ?>
+                                </tbody>
+                            </table>
+                        <?php } ?>
 
-                        </div>
-                    </row>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -176,22 +176,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
 
     <script src="js/main.js"></script>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-        (function (b, o, i, l, e, r) {
-            b.GoogleAnalyticsObject = l;
-            b[l] || (b[l] =
-                    function () {
-                        (b[l].q = b[l].q || []).push(arguments)
-                    });
-            b[l].l = +new Date;
-            e = o.createElement(i);
-            r = o.getElementsByTagName(i)[0];
-            e.src = '//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e, r)
-        }(window, document, 'script', 'ga'));
-        ga('create', 'UA-XXXXX-X', 'auto');
-        ga('send', 'pageview');
-    </script>
 </body>
 </html>
