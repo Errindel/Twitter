@@ -104,24 +104,24 @@ class Comment {
         }
         return null;
     }
-    static public function loadCommentByTweetId(mysqli $connection, $tweetId) {
+    static public function loadAllCommentByTweetId(mysqli $connection, $tweetId) {
         $sql = "SELECT * FROM Comments WHERE tweet_id=$tweetId ORDER BY creation_date DESC";
 
         $result = $connection->query($sql);
-        if ($result == true && $result->num_rows == 1) {
-            $row = $result->fetch_assoc();
+       
+        if ($result == true && $result->num_rows != 0) {
+            foreach ($result as $row) {
+                $loadedComment = new Comment();
+                $loadedComment->commentId = $row['comment_id'];
+                $loadedComment->userId = $row['user_id'];
+                $loadedComment->tweetId = $row['tweet_id'];
+                $loadedComment->text = $row['comment_text'];
+                $loadedComment->creationDate = $row['creation_date'];
 
-            $loadedTweet = new Comment();
-            $loadedTweet->commentId = $row['comment_id'];
-            $loadedTweet->userId = $row['user_id'];
-            $loadedTweet->tweetId = $row['tweet_id'];
-            $loadedTweet->text = $row['comment_text'];
-            $loadedTweet->creationDate = $row['creation_date'];
-
-
-            return $loadedTweet;
+                $ret[] = $loadedComment;
+            }              
         }
-        return null;
+        return $ret;
     }
     
 
@@ -131,14 +131,14 @@ class Comment {
         $result = $connection->query($sql);
         if ($result == true && $result->num_rows != 0) {
             foreach ($result as $row) {
-                $loadedTweet = new Tweet();
-                $loadedTweet->commentId = $row['comment_id'];
-                $loadedTweet->userId = $row['user_id'];
-                $loadedTweet->tweetId = $row['tweet_id'];
-                $loadedTweet->text = $row['comment_text'];
-                $loadedTweet->creationDate = $row['creation_date'];
+                $loadedComment = new Comment();
+                $loadedComment->commentId = $row['comment_id'];
+                $loadedComment->userId = $row['user_id'];
+                $loadedComment->tweetId = $row['tweet_id'];
+                $loadedComment->text = $row['comment_text'];
+                $loadedComment->creationDate = $row['creation_date'];
 
-                $ret[] = $loadedTweet;
+                $ret[] = $loadedComment;
             }              
         }
         return $ret;
@@ -148,10 +148,13 @@ class Comment {
     public function saveToDB(mysqli $connection) {
         if ($this->commentId == -1) {
         //Saving new tweet to DB
-            $sql = "INSERT INTO Comments(tweet_id, user_id, comment_text, creation_date) VALUES ('$this->tweetId','$this->userId', '$this->text', '$this->creationDate')";
-            $result = $connection->query($sql);
-            if ($result == true) {
-                $this->commentId = $connection->insert_id;
+            
+            $statement = $connection->prepare("INSERT INTO Comments(tweet_id, user_id, comment_text, creation_date) VALUES (?, ?, ?, ?)");
+            
+            $statement->bind_param('iiss', $this->tweetId, $this->userId, $this->text, $this->creationDate);
+            
+            if ($statement->execute()) {
+                $this->commentId = $statement->insert_id;
                 return true;
             }
         }

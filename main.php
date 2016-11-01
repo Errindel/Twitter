@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                                 $username = $loadedUser->getUsername();
                                 $tweetId = $tweets[$i]->getTweetId();
                                 ?>
-                            <a href="comments.php/?tweetId=<?=$tweetId?>">
+                            <a href="comments.php?tweetId=<?=$tweetId?>">
                                 <table class="table" id="table-tweet">                                
                                     <tbody>
                                         <tr id="table-tweet-header">
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                                         </tr>
                                         <tr class="hidden-option">
                                             <td>
-                                                <a href="comments.php"><span class="glyphicon glyphicon-comment"></span></a>
+                                                <a href="comments.php?tweetId=<?=$tweetId?>"><span class="glyphicon glyphicon-comment"></span></a>
                                                 <a href="comments.php"><span class="glyphicon glyphicon-heart"></span></a>
                                             </td>
                                         </tr>

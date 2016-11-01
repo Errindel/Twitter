@@ -61,19 +61,18 @@ class User {
         if ($this->id == -1) {
             // Saving new user to DB
 
-            $sql = "INSERT INTO Users(username, email, hashed_password) VALUES ('$this->username', '$this->email', '$this->hashedPassword')";
+             $statement = $connection->prepare("INSERT INTO Users(username, email, hashed_password) VALUES (?, ? ,?)");
+            
+            $statement->bind_param('sss', $this->username, $this->email, $this->hashedPassword);
 
-            $result = $connection->query($sql);
-            var_dump($result);
 
-            if ($result == true) {
-                $this->id = $connection->insert_id;
-                echo "dochodze 1";
+            if ($statement->execute()) {
+                $this->id = $statement->insert_id;
                 return true;
             } else {
-                echo "dochodze 2";
-                return false;
+                echo "Problem $statement->error";
             }
+            return false;
         } else {
             $sql = "UPDATE Users SET username='$this->username',
                             email='$this->email',

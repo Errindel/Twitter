@@ -121,21 +121,25 @@ class Tweet {
                 $loadedTweet->creationDate = $row['creationDate'];
 
                 $ret[] = $loadedTweet;
-            }              
+            }
         }
         return $ret;
-        
     }
 
     public function saveToDB(mysqli $connection) {
         if ($this->tweetId == -1) {
-        //Saving new tweet to DB
-            $sql = "INSERT INTO Tweets(user_id, text, creationDate) VALUES ('$this->userId', '$this->text', '$this->creationDate')";
-            $result = $connection->query($sql);
-            if ($result == true) {
-                $this->tweetId = $connection->insert_id;
+            //Saving new tweet to DB
+            $statement = $connection->prepare("INSERT INTO Tweets(user_id, text, creationDate) VALUES (?, ?, ?)");
+
+            $statement->bind_param('iss', $this->userId, $this->text, $this->creationDate);
+
+            if ($statement->execute()) {
+                $this->tweetId = $statement->insert_id;
                 return true;
+            } else {
+                echo "Error: $statement->error";
             }
+            return false;
         }
         return false;
     }
