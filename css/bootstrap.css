@@ -6112,7 +6112,7 @@ button.close {
   background-color: transparent;
   border: 0;
 }
-.hidden {
+.hide {
   display: none !important;
   visibility: hidden !important;
 }

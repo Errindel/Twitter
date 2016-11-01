@@ -56,3 +56,28 @@ h2 {
   color: black;
   margin-bottom: 5px;
 }
+
+.ok {
+    color: lightgreen;
+}
+
+error {
+    color: red;
+}
+
+.komunikat{
+    padding: 5px;
+}
+
+.hide {
+    
+    opacity: 0; 
+    height: 0;
+    overflow: hidden;
+
+}
+.show {
+    
+    opacity: 1;
+    height: auto;
+}

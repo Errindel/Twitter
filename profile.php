@@ -12,12 +12,12 @@ if (isset($_SESSION['loggedUserId'])) {
 
 $connection = getDbConnection();
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         !empty($_POST['tweet'])) {
     $tweet = $_POST['tweet'];
     $userId = $_SESSION['loggedUserId'];
-    $creationDate = date("Y-m-d h:i:s");
-    
+    $creationDate = date("Y-m-d h:i:s");    
 
     $newTweet = new Tweet;
     $newTweet->setText($tweet);
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">    
         <style>
             body {
                 padding-top: 50px;
@@ -81,7 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                         <li><a>
                             <form class="logout" action="logout.php" role="form">
                             <button type="submit" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-off"></span> Wyloguj się</button>
-                        </form>                             
+                        </form>
+                                
                                 
                             </a></li>
 
@@ -98,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
             <div class="row ">
                 <div class="col-md-4">
                     <h5>Twoje dane:</h5>
-                    
+                    <?= $creationTime ?>
                     <?php
                     $loggedUser = new User;
                     $loggedUserId = $_SESSION['loggedUserId'];
@@ -113,12 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                                 <td> Użytkownik: <?= $loggedUserName ?> </td>
                                 <td> Email:  <?= $loggedUserEmail ?> </td>
                             </tr>
-                            <tr>
-                                <td><form action="profile.php" method="POST"><button class="btn btn-info btn-xs">Twój profil</button></form></td>
-                                <td><form action="message.php" method="POST"><button class="btn btn-info btn-xs">Wyślij wiadomość</button></form></td>
-                                
+                            <tr>                        
+                                <td colspan="2"><form action="profile.php" method="POST"><button class="btn btn-info btn-xs">Zmień dane</button></form></td>
                             </tr>
-
                         </tbody>
                     </table>
 
@@ -134,10 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                     </form>
                     <row>
                         <div class="col-md-12" style="padding: 0px;">
-                            <h5>Kiedy Cię nie było...</h5>
+                            <h5>Twoje Tweety</h5>
                             <?php
                             $tweets = new Tweet;
-                            $tweets = Tweet::loadAllTweets($connection);
+                            $tweets = Tweet::loadAllTweetsByUserId($connection, $loggedUserId);
 
 
 
@@ -148,26 +146,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                                 $username = $loadedUser->getUsername();
                                 $tweetId = $tweets[$i]->getTweetId();
                                 ?>
-                            <a href="comments.php/?tweetId=<?=$tweetId?>">
-                                <table class="table" id="table-tweet">                                
+                                <table class="table table-hover" id="table-tweet">                                
                                     <tbody>
                                         <tr id="table-tweet-header">
                                             <td> <strong><?= $username ?></strong> </td>
                                             <td> Data: <?= $tweets[$i]->getCreationDate() ?> </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2"><?= $tweets[$i]->getText() ?></td>
-                                        </tr>
-                                        <tr class="hidden-option">
-                                            <td>
-                                                <a href="comments.php"><span class="glyphicon glyphicon-comment"></span></a>
-                                                <a href="comments.php"><span class="glyphicon glyphicon-heart"></span></a>
-                                            </td>
+                                            <td colspan="2"><a href="comments.php   /?tweetId=<?=$tweetId?>"><?= $tweets[$i]->getText() ?></a></td>
                                         </tr>
 
                                     </tbody>
                                 </table>
-                            </a>
                             <?php } ?>
 
                         </div>
