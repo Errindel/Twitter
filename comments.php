@@ -113,8 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                         <tbody>
                             <tr>
                                 <td><form action="profile.php" method="POST"><button class="btn btn-info btn-xs">Twój profil</button></form></td>
-                                <td><form action="message.php" method="POST"><button class="btn btn-info btn-xs">Wyślij wiadomość</button></form></td>
-
                             </tr>
 
                         </tbody>

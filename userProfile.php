@@ -13,42 +13,10 @@ if (isset($_SESSION['loggedUserId'])) {
 
 $connection = getDbConnection();
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
-        !empty($_POST['tweet'])) {
-    $tweet = $_POST['tweet'];
-    $userId = $_SESSION['loggedUserId'];
-    $creationDate = date("Y-m-d h:i:s");
-
-    $newTweet = new Tweet;
-    $newTweet->setText($tweet);
-    $newTweet->setUserId($userId);
-    $newTweet->setCreationDate($creationDate);
-
-    $result = $newTweet->saveToDB($connection);
+if (isset($_GET['userId'])){
+    $userId = $_GET['userId'];
 }
-    //
-    //var_dump($_POST);
-    //if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
-    //        !empty($_POST['changeName']) &&
-    //        !empty($_POST['changeEmail']) &&       
-    //        !empty($_POST['changePassword'])        
-    //        ) {
-    //    $username = $_POST['changeName'];
-    //    $email = $_POST['changeEmail'];
-    //    $newPassword = $_POST['changePassword'];
-    //    $userId = $_SESSION['loggedUserId'];
-    //    
-    //    $changeData = new User;
-    //    $changeData->setEmail($email);
-    //    $changeData->setPassword($newPassword);
-    //    $changeData->setUsername($username);
-    //
-    //    $result = $changeData->saveToDB($connection);
-    //    var_dump($result);
-    //}
-
-
+    
 ?>
 
 <!doctype html>
@@ -109,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                         <div class="container-fluid">
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="#">Wiadomości</a></li>
-                                <li><a class="active" href="#">Twoje Tweety</a></li>
+                                <li><a class="active" href="#">Tweety</a></li>
                                 <li><a  id="changeData"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Zmień dane</a></li>
 
                             </ul>
@@ -131,19 +99,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
 
                     <?= $creationTime ?>
                     <?php
-                    $loggedUser = new User;
-                    $loggedUserId = $_SESSION['loggedUserId'];
-                    $loggedUser = User::loadUserById($connection, $loggedUserId);
-                    $loggedUserName = $loggedUser->getUsername();
-                    $loggedUserEmail = $loggedUser->getEmail();
+                    $user = new User;
+                    $user = User::loadUserById($connection, $userId);
+                    $userName = $user->getUsername();
+                    $userEmail = $user->getEmail();
                     ?>
 
                     <table class="table" id="table-user">                                
                         <tbody>
                         <div class="avatar"></div>
 
-                        <tr> <h3 class="full"><?= $loggedUserName ?></h3>  </tr>
-                        <tr>  <?= $loggedUserEmail ?> </tr>
+                        <tr> <h3 class="full"><?= $userName ?></h3>  </tr>
+                        <tr>  <?= $userEmail ?> </tr>
 
                         </tbody>
                     </table>
@@ -158,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                         <h5>Twoje Tweety</h5>
                         <?php
                         $tweets = new Tweet;
-                        $tweets = Tweet::loadAllTweetsByUserId($connection, $loggedUserId);
+                        $tweets = Tweet::loadAllTweetsByUserId($connection, $userId);
 
 
 
@@ -188,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3"><a href="comments.php/?tweetId=<?= $tweetId ?>"><?= $tweets[$i]->getText() ?></a></td>
+                                        <td colspan="3"><a href="comments.php?tweetId=<?= $tweetId ?>"><?= $tweets[$i]->getText() ?></a></td>
                                     </tr>
 
                                 </tbody>

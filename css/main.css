@@ -18,6 +18,29 @@ a:hover, a:visited, a:link, a:active {
   box-shadow: 0px 2px 5px -2px rgba(117,128,148,1);
 }
 
+.full {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.pg-header {
+    height: 60px;
+    background-color: white;
+    border-bottom: 1px solid whitesmoke;
+    box-shadow: 1px 1px 0px 1px lightgray;
+}
+.avatar{
+    background-color: #2B7BB9 !important;
+    border: 2px solid whitesmoke !important;
+    height: 150px !important;
+    width: 150px !important;
+}
+
+.table-user {
+    background-color: white;
+    
+}
+
 .hide {
     display: none;
 }

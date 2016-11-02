@@ -100,22 +100,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
         <div class="row ">
 
             <!-- Kolumna z danymi użytkownika -->
-            <div class="col-md-4">
+            <div class="col-md-3">
                 
-                <table class="table table-hover" id="table-tweet">                                
-                    <thead>
-                        <tr><div style="background-color: #2B7BB9; height: 80px;"></div></tr>
-                        <tr id="table-tweet-header">
-                            <td><a href="profile.php"><h3><?= $loggedUserName ?></h3></a> </td>
-                            
-                        </tr>
-                    </thead>    
-                    
-                </table>
+                <table class="table" id="table-user">                                
+                        <tbody>
+                        <div class="avatar"></div>
+
+                        <tr> <h3 class="full"><?= $loggedUserName ?></h3>  </tr>
+                        <tr>  <?= $loggedUserEmail ?> </tr>
+
+                        </tbody>
+                    </table>
             </div>
 
             <!-- Kolumna z Tweetami -->
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <!--  START Nowe Tweety -->
                 <form class="tweet" role="form" action="" method="POST">
                     <div class="form-group">
@@ -147,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                             <table class="table" id="table-tweet">
                                 <thead>
                                     <tr id="table-tweet-header">
-                                        <td id="tweet-username">  <a href="profile.php?userId=<?=$userId?>"><strong><?= $username ?></strong> </a> </td>
+                                        <td id="tweet-username">  <a href="userProfile.php?userId=<?=$userId?>"><strong><?= $username ?></strong> </a> </td>
                                         <td id="tweet-date"> <?= $tweets[$i]->getCreationDate() ?> </td>
                                         <td id="tweet-comment">
                                             <a href="comments.php?tweetId=<?=$tweetId?>">

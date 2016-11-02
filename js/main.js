@@ -52,8 +52,9 @@ $(document).ready(function(){
     // script showing form that allows user to change data.
     
     $('a#changeData').click(function(){
-       var newForm = $("<form class='change-data-form' role='form' action='' method='POST'> <div class='form-group'> <label> Imię: </label> <input type='text' name='changeName' placeholder='Imię' class='form-control' id='change-name'> <label> E-mail</label> <input type='text' name='changeEmail' placeholder='E-mail' class='form-control' id='change-email'> </div class='form-group'> <button type='submit' class='btn btn-info'>Zmień dane</button> </form>");
-       var insert = $('div#change-data-form');
+       var newForm = $("<form class='change-data-form' role='form' action='' method='POST'> <div class='form-group'> <label> Imię: </label> <input type='text' name='changeName' placeholder='Imię' class='form-control' id='change-name'> <label> E-mail</label> <input type='text' name='changeEmail' placeholder='E-mail' class='form-control' id='change-email'> <label> Hasło</label> <input type='password' name='changePassword' placeholder='Hasło' class='form-control' id='change-password'></div class='form-group'> <button name='changeData' type='submit' class='btn btn-info'>Zmień dane</button> </form>");
+       
+        var insert = $('div#change-data-form');
        
        insert.append(newForm);
         $('a#changeData').off('click');
