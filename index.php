@@ -1,8 +1,3 @@
-<?php ?>
-
-
-
-
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -125,56 +120,6 @@
 
         <script>
             $(document).ready(function () {
-                
-                $('#password-l').on('blur', function () {
-                    var input = $(this);
-                    var pass_length = input.val().length;
-                    console.log(pass_length);
-                    
-                    if (pass_length >= 8 && pass_length <= 16) {
-                        input.parent().removeClass("has-error").addClass("has-success");
-                        input.next('.komunikat').text("Wprowadzono poprawne hasło.").removeClass("error").removeClass("hide").addClass("ok show");
-                    } else {
-                        input.parent().removeClass("has-success").addClass("has-error");
-                        input.next('.komunikat').text("Hasło musi mieć min. 8 i max. 16 znaków. Bez znaków specjalnych!").removeClass("ok").removeClass("hide").addClass("error");
-
-                    }
-                });
-
-          
-                $('#email-l').on('blur', function () {
-                    var input = $(this);
-                    var pattern = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-                    var is_email = pattern.test(input.val());
-                    if (is_email) {
-                        input.parent().removeClass("has-error").addClass("has-success");
-                        input.next('.komunikat').text("Wprowadzono poprawny email.").removeClass("error").removeClass("hide").addClass("ok");
-                    } else {
-                        input.parent().removeClass("has-succes").addClass("has-error");
-                        input.next('.komunikat').text("Wprowadź poprawny email!").removeClass("ok").removeClass("hide").addClass("error");
-                    }
-                });
-                
-                //Po próbie wysłania formularza rejsetracji 
-		$('#button-l').click(function(event){
-                        var button = $(this);
-			var email = $('#email-l');
-			var password = $('#password-l');
-			
-                        console.log(email.parent().hasClass('has-success'));
-                        console.log(password.parent().hasClass('has-success'));
-                        
-			if(email.parent().hasClass('has-success') && password.parent().hasClass('has-success')){	
-			}
-			else {
-				event.preventDefault();
-				button.next('.komunikat').text("Uzupełnij wszystkie pola!").removeClass("ok").removeClass("hide").addClass("error");	
-			}
-		});
-                
-                
-                
-                
                 //REJESTRACJA
                 $('#name-r').on('blur', function () {
                     var input = $(this);

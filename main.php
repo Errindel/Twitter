@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                         <tbody>
                         <div class="avatar"></div>
 
-                        <tr> <h3 class="full"><?= $loggedUserName ?></h3>  </tr>
+                        <tr> <a href="profile.php?userId=<?=$loggedUserId?>"><h3 class="full"><?= $loggedUserName ?></h3></a>  </tr>
                         <tr>  <?= $loggedUserEmail ?> </tr>
 
                         </tbody>
@@ -131,12 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
                     <div class="col-md-12" style="padding: 0px;">
                         <h5>Kiedy Cię nie było...</h5>
                         <?php
-                        $tweets = new Tweet;
                         $tweets = Tweet::loadAllTweets($connection);
 
                         for ($i = 0; $i < count($tweets); $i++) {
                             $id = $tweets[$i]->getUserId();
-                            $loadedUser = new User;
                             $loadedUser = User::loadUserById($connection, $id);
                             $username = $loadedUser->getUsername();
                             $userId = $loadedUser->getId();

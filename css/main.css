@@ -30,6 +30,7 @@ a:hover, a:visited, a:link, a:active {
     box-shadow: 1px 1px 0px 1px lightgray;
 }
 .avatar{
+    background-image:  url("../img/profile.png");
     background-color: #2B7BB9 !important;
     border: 2px solid whitesmoke !important;
     height: 150px !important;

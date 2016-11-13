@@ -13,10 +13,9 @@ if (isset($_SESSION['loggedUserId'])) {
 
 $connection = getDbConnection();
 
-if (isset($_GET['userId'])){
+if (isset($_GET['userId'])) {
     $userId = $_GET['userId'];
 }
-    
 ?>
 
 <!doctype html>
@@ -72,13 +71,12 @@ if (isset($_GET['userId'])){
         <div class="container-fluid full" >
             <div class="row full">
                 <div class="col-md-12 full">
-                    <div style="background-color: #2B7BB9; height: 200px; width: 100%"></div>
+                    <div id="background-img"></div>
                     <nav class="navbar navbar-default">
                         <div class="container-fluid">
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Wiadomości</a></li>
+                                <li><a id="sendMsg">Wyślij wiadomość</a></li>
                                 <li><a class="active" href="#">Tweety</a></li>
-                                <li><a  id="changeData"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Zmień dane</a></li>
 
                             </ul>
                         </div>
@@ -97,9 +95,7 @@ if (isset($_GET['userId'])){
 
                 <div class="col-md-3">
 
-                    <?= $creationTime ?>
                     <?php
-                    $user = new User;
                     $user = User::loadUserById($connection, $userId);
                     $userName = $user->getUsername();
                     $userEmail = $user->getEmail();
@@ -115,23 +111,24 @@ if (isset($_GET['userId'])){
                         </tbody>
                     </table>
 
-                    <div id="change-data-form">
-
-                    </div>
-
+                    <form class='form hide' id="send-msg" role='form' action='sendMsg.php' method='POST'>
+                        <div class='form-group'> 
+                            <label> Wiadomość: </label> 
+                            <textarea type='text' name='changeName' placeholder='Imię' class='form-control' id='change-name'></textarea> 
+                        </div> 
+                        <button name='changeData' type='submit' class='btn btn-info'>Wyślij wiadomość</button> 
+                    </form>
                 </div>
                 <div class="col-md-9">
                     <div class="col-md-12" style="padding: 0px;">
-                        <h5>Twoje Tweety</h5>
+                        <h5>Tweety</h5>
                         <?php
-                        $tweets = new Tweet;
                         $tweets = Tweet::loadAllTweetsByUserId($connection, $userId);
 
 
 
                         for ($i = 0; $i < count($tweets); $i++) {
                             $id = $tweets[$i]->getUserId();
-                            $loadedUser = new User;
                             $loadedUser = User::loadUserById($connection, $id);
                             $username = $loadedUser->getUsername();
                             $tweetId = $tweets[$i]->getTweetId();
@@ -142,16 +139,16 @@ if (isset($_GET['userId'])){
                                         <td> <strong><?= $username ?></strong> </td>
                                         <td> Data: <?= $tweets[$i]->getCreationDate() ?> </td>
                                         <td id="tweet-comment">
-                                            <a href="comments.php?tweetId=<?=$tweetId?>">
+                                            <a href="comments.php?tweetId=<?= $tweetId ?>">
                                                 <span><?php
-                                                $AllCommByTweetId = Comment::loadAllCommentByTweetId($connection, $tweetId);
-                                                $quantityOfComments = count($AllCommByTweetId);
-                                                echo $quantityOfComments;
-                                                ?>
+                                                    $AllCommByTweetId = Comment::loadAllCommentByTweetId($connection, $tweetId);
+                                                    $quantityOfComments = count($AllCommByTweetId);
+                                                    echo $quantityOfComments;
+                                                    ?>
                                                 </span>
                                                 <span class="glyphicon glyphicon-comment"></span>
                                             </a>
-                                            
+
                                         </td>
                                     </tr>
                                     <tr>
